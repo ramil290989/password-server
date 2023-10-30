@@ -1,0 +1,11 @@
+{
+  "name": "password-server",
+  "version": "1.0.0",
+  "description": "password manager server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "garifullin ramil",
+  "license": "ISC"
+}
