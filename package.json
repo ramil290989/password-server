@@ -4,7 +4,9 @@
   "description": "password manager server",
   "main": "index.js",
   "type": "module",
+  "bin": "./bin/start.js",
   "scripts": {
+    "start": "node ./bin/start.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "garifullin ramil",
