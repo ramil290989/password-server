@@ -1,6 +1,6 @@
-import express, { response } from 'express';
+import express from 'express';
 import { HttpError } from 'http-errors';
-import { generateToken } from './token.js';
+import generateToken from './token.js';
 import state from './state.js';
 import addNewUser from './addNewUser.js';
 
@@ -31,6 +31,6 @@ router.post('/signIn', (request, response) => {
     const token = generateToken(username);
     response.send({ userId: id, token });
   }
-})
+});
 
 export default router;
