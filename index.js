@@ -1,18 +1,7 @@
 import express from 'express';
 import router from './src/routes.js';
-import readUsers from './src/readUsers.js';
-import readPasswords from './src/readPasswords.js';
-import writeUser from './src/writeUser.js';
-
-const users = readUsers();
-const passwords = readPasswords();
 
 const PORT = 3000;
-
-const state = {
-  users,
-  passwords,
-};
 
 const start = () => {
   const app = express();
