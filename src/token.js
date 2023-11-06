@@ -2,6 +2,11 @@ import jwt from 'jsonwebtoken';
 
 const key = 'ramil';
 
-const generateToken = (username) => jwt.sign({ username }, key, { expiresIn: '1h' });
+const generateToken = (username) => jwt.sign({ username }, key, { expiresIn: '1h', algorithm: 'HS256' });
 
-export default generateToken;
+const authentikateToken = (token) => {
+  const user = jwt.verify(token, key);
+  return user.username;
+};
+
+export { generateToken, authentikateToken };
