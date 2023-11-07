@@ -3,6 +3,7 @@ import { generateToken, authentikateToken } from './token.js';
 import state from './state.js';
 import addNewUser from './addNewUser.js';
 import addNewPassword from './addNewPassword.js';
+import writePasswords from './writePasswords.js';
 
 const { users, passwords } = state;
 
@@ -51,7 +52,7 @@ router.get('/data', (request, response) => {
       .send({ error: 'Forbidden' });
   }
 });
-// проверка токена
+// проверка токена добавление нового пароля
 router.post('/addpassword', (request, response) => {
   try {
     const token = request.headers.authorization;
@@ -63,6 +64,40 @@ router.post('/addpassword', (request, response) => {
     newPassword.id = id;
     addNewPassword(newPassword);
     response.send(newPassword);
+  } catch (e) {
+    response
+      .status(403)
+      .send({ error: 'Forbidden' });
+  }
+});
+// изменение пароля
+router.post('/changepassword', (request, response) => {
+  try {
+    const token = request.headers.authorization;
+    const username = authentikateToken(token);
+    const passwordData = request.body;
+    const password = passwords.find((p) => p.id === passwordData.id);
+    Object.keys(passwordData).forEach((key) => {
+      password[key] = passwordData[key];
+    });
+    writePasswords(passwords);
+    response.send(password);
+  } catch (e) {
+    response
+      .status(403)
+      .send({ error: 'Forbidden' });
+  }
+});
+//удаление пароля
+router.post('/removepassword', (request, response) => {
+  try {
+    const token = request.headers.authorization;
+    const username = authentikateToken(token);
+    const id = request.body.id;
+    const index = passwords.findIndex((p) => p.id === id);
+    passwords.splice(index, 1);
+    writePasswords(passwords);
+    response.send(`password id=${id} removed`);
   } catch (e) {
     response
       .status(403)
