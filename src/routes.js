@@ -2,11 +2,13 @@ import express from 'express';
 import { generateToken, authentikateToken } from './token.js';
 import state from './state.js';
 import addNewUser from './addNewUser.js';
+import addNewPassword from './addNewPassword.js';
 
 const { users, passwords } = state;
 
 const router = express.Router();
 
+// авторизация
 router.post('/login', (request, response) => {
   const { username, password } = request.body;
   const user = users.find((u) => u.name === username);
@@ -19,7 +21,8 @@ router.post('/login', (request, response) => {
       .send({ error: 'Unauthorized' });
   }
 });
-router.post('/signIn', (request, response) => {
+// регистрация
+router.post('/signin', (request, response) => {
   const { username, password } = request.body;
   const user = users.find((u) => u.name === username);
   if (user) {
@@ -34,9 +37,10 @@ router.post('/signIn', (request, response) => {
     response.send({ username, token });
   }
 });
+// проверка токена запрос паролей
 router.get('/data', (request, response) => {
   try {
-    const token = request.headers['authorization'];
+    const token = request.headers.authorization;
     const username = authentikateToken(token);
     const user = users.find((u) => u.name === username);
     const userPasswords = passwords.filter((password) => password.userId === user.id);
@@ -45,8 +49,25 @@ router.get('/data', (request, response) => {
     response
       .status(403)
       .send({ error: 'Forbidden' });
-  }  
+  }
 });
-
+// проверка токена
+router.post('/addpassword', (request, response) => {
+  try {
+    const token = request.headers.authorization;
+    const username = authentikateToken(token);
+    const user = users.find((u) => u.name === username);
+    const newPassword = request.body;
+    const id = passwords.length + 1;
+    newPassword.userId = user.id;
+    newPassword.id = id;
+    addNewPassword(newPassword);
+    response.send(newPassword);
+  } catch (e) {
+    response
+      .status(403)
+      .send({ error: 'Forbidden' });
+  }
+});
 
 export default router;
