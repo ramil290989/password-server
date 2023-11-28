@@ -88,16 +88,16 @@ router.post('/changepassword', (request, response) => {
       .send({ error: 'Forbidden' });
   }
 });
-//удаление пароля
+// удаление пароля
 router.post('/removepassword', (request, response) => {
   try {
     const token = request.headers.authorization;
     const username = authentikateToken(token);
-    const id = request.body.id;
+    const { id } = request.body;
     const index = passwords.findIndex((p) => p.id === id);
     passwords.splice(index, 1);
     writePasswords(passwords);
-    response.send(`password id=${id} removed`);
+    response.send({ removedPasswordId: id });
   } catch (e) {
     response
       .status(403)
