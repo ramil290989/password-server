@@ -75,10 +75,10 @@ router.post('/changepassword', (request, response) => {
   try {
     const token = request.headers.authorization;
     const username = authentikateToken(token);
-    const passwordData = request.body;
-    const password = passwords.find((p) => p.id === passwordData.id);
-    Object.keys(passwordData).forEach((key) => {
-      password[key] = passwordData[key];
+    const { id, values } = request.body;
+    const password = passwords.find((p) => p.id === id);
+    Object.keys(values).forEach((key) => {
+      password[key] = values[key];
     });
     writePasswords(passwords);
     response.send(password);
