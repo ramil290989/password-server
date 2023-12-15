@@ -15,7 +15,7 @@ const changeUserPassword = (request, response) => {
       user.password = newPassword;
       writeUsers(users);
       response.sendStatus(200);
-    } 
+    }
   } catch (e) {
     response.sendStatus(403);
   }
