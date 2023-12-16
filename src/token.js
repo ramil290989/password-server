@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const key = 'ramil';
+const key = process.env.TOKENKEY || 'tokenkey';
 
 const generateToken = (username) => jwt.sign({ username }, key, { expiresIn: '1h', algorithm: 'HS256' });
 
