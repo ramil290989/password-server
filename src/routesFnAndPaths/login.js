@@ -6,6 +6,7 @@ const login = (request, response) => {
   const { username, password } = request.body;
   const user = users.find((u) => u.name === username);
   if (user && password === user.password) {
+    console.log(`${username} log in`);
     const token = generateToken(user.name);
     response.send({ username, token });
   } else {

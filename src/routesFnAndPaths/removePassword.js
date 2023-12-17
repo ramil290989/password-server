@@ -6,7 +6,8 @@ const removePassword = (request, response) => {
   try {
     const { passwords } = state;
     const token = request.headers.authorization;
-    authentikateToken(token);
+    const username = authentikateToken(token);
+    console.log(`${username} remove password`);
     const { id } = request.body;
     const index = passwords.findIndex((p) => p.id === id);
     passwords.splice(index, 1);

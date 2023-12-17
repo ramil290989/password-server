@@ -6,6 +6,7 @@ const data = (request, response) => {
     const { users, passwords } = state;
     const token = request.headers.authorization;
     const username = authentikateToken(token);
+    console.log(`${username} fetch data`);
     const user = users.find((u) => u.name === username);
     const userPasswords = passwords.filter((password) => password.userId === user.id);
     response.send(userPasswords);

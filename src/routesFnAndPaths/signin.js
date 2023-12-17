@@ -5,6 +5,7 @@ import addNewUser from '../addNewUser.js';
 const signin = (request, response) => {
   const { users } = state;
   const { username, password } = request.body;
+  console.log(`${username} register`);
   const user = users.find((u) => u.name === username);
   if (user) {
     response

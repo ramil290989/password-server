@@ -7,6 +7,7 @@ const changeUserPassword = (request, response) => {
     const { users } = state;
     const token = request.headers.authorization;
     const username = authentikateToken(token);
+    console.log(`${username} change user password`);
     const { password, newPassword } = request.body;
     const user = users.find((u) => u.name === username);
     if (user.password !== password) {

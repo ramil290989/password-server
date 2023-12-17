@@ -6,7 +6,8 @@ const editPassword = (request, response) => {
   try {
     const { passwords } = state;
     const token = request.headers.authorization;
-    authentikateToken(token);
+    const username = authentikateToken(token);
+    console.log(`${username} edit password`);
     const { id, values } = request.body;
     const password = passwords.find((p) => p.id === id);
     Object.keys(values).forEach((key) => {
