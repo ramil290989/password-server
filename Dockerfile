@@ -1,14 +1,20 @@
-# Use the official Node.js image as the base image
-FROM node:18
+# Specifies the base image we're extending
+FROM node:carbon
 
-# Set the working directory in the container
-WORKDIR /app1
+# Create app directory in the Docker image
+WORKDIR /usr/src/app
 
-# Copy the application files into the working directory
-COPY . /app1
+# Install app dependencies by copying package.json and package-lock.json
+COPY package*.json ./
 
-# Install the application dependencies
+# Install the app dependencies using NPM
 RUN npm install
 
-# Define the entry point for the container
-CMD ["npm", "start"]
+# Bundle app source inside Docker image
+COPY . .
+
+# Set the command to start your app using CMD. Here "node server.js" is an example of what you might use to start your Node.js app.
+CMD [ "node", "server.js"
+
+# Expose the port your app runs on
+EXPOSE 8080
