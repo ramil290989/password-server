@@ -37,8 +37,5 @@ router.post(addPasswordPath, addPassword);
 router.post(editPasswordPath, editPassword);
 // удаление пароля
 router.post(removedPasswordPath, removePassword);
-router.get('/', (req, res) => {
-  res.send('Hello World!');
-});
 
 export default router;
