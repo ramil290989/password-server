@@ -12,7 +12,7 @@ const removePassword = (request, response) => {
     const index = passwords.findIndex((p) => p.id === id);
     passwords.splice(index, 1);
     writePasswords(passwords);
-    response.send({ removedPasswordId: id });
+    response.sendStatus(200);
   } catch (e) {
     response
       .status(403)

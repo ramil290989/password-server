@@ -1,128 +1,142 @@
-## Login
-#### Request
+# Описание
+Данные о пользователях находятся в файле `./bin/users.json` в виде массива.
+Объект `user` содержит следующие значения:
 ```
-path = '/api/login'
-loginData = { username: 'admin', password: 'password' }
-axios.post(path, loginData)
+{
+  id,
+  name,
+  password,  
+}
 ```
-#### Response
-`responseData = { username, token }`
-#### Errors
-error Unauthorized (incorrect username or password)
-`response.status = 401`
+Данные о паролях находятся в файле `./bin/passwords.json` в виде массива.
+Объект `password` содержит следующие значения:
+```
+{
+  id,
+  userId,
+  userName,
+  password,
+  header,
+  description,
+}
+```
 
-## SignIn
-#### Request
+# Запросы и ответы
+### Регистрация нового пользователя
+#### Запрос:
 ```
 path = '/api/signin'
-loginData = { username: 'admin', password: 'password' }
+regData = { username, password }
+axios.post(path, regData)
+```
+#### Ответ:
+`responseData = { username, token }`
+#### Возможные ошибки:
+Пользователь с таким именем уже существует
+```
+error: 'Conflict'
+response.status = 409
+```
+
+### Авторизация
+#### Запрос:
+```
+path = '/api/login'
+loginData = { username, password }
 axios.post(path, loginData)
 ```
-#### Response
+#### Ответ:
 `responseData = { username, token }`
-#### Errors
-error Conflict (this username already exists)
-`response.status = 409`
+#### Возможные ошибки:
+Неправильный логин или пароль
+```
+error: 'Unauthorized'
+response.status = 401
+```
 
-## Get passwords
-#### Request
+### Изменение пароля входа в систему
+#### Запрос:
+```
+path = '/api/changeuserpassword'
+authHeader = { headers: { Authorization: token } }
+axios.post(path, { password, newPassword }, authHeader)
+```
+#### Ответ:
+`response.status = 200`
+#### Возможные ошибки:
+Неправильный старый пароль
+```
+error: 'Unauthorized'
+response.status = 401
+```
+Истекло время авторизации
+```
+error: 'Forbidden'
+response.status = 403
+```
+
+### Добавление нового пароля
+#### Запрос:
+```
+path = '/api/addpassword'
+authHeader = { headers: { Authorization: token } }
+values = { header, description, userName, password }
+axios.post(path, values, authHeader)
+```
+#### Ответ:
+`responseData = newPassword`
+#### Возможные ошибки:
+Истекло время авторизации
+```
+error: 'Forbidden'
+response.status = 403
+```
+
+### Изменение добавленного пароля
+#### Запрос:
+```
+path = '/api/editpassword'
+authHeader = { headers: { Authorization: token } }
+postData = { id, header, description, userName, password }
+axios.post(path, postData, authHeader)
+```
+#### Ответ:
+`response.status = 200`
+#### Возможные ошибки:
+Истекло время авторизации
+```
+error: 'Forbidden'
+response.status = 403
+```
+
+### Удаление добавленного пароля
+#### Запрос:
+```
+path = '/api/removepassword'
+authHeader = { headers: { Authorization: token } }
+axios.post(path, { id }, authHeader)
+```
+#### Ответ:
+`response.status = 200`
+#### Возможные ошибки:
+Истекло время авторизации
+```
+error: 'Forbidden'
+response.status = 403
+```
+
+### Загрузка добавленных паролей
+#### Запрос:
 ```
 path = '/api/data'
-authHeader = { headers: { Authorization: secretToken } }
+authHeader = { headers: { Authorization: token } }
 axios.get(path, authHeader)
 ```
-#### Response
-Array of user passwords
+#### Ответ:
+`responseData = userPasswords`
+#### Возможные ошибки:
+Истекло время авторизации
 ```
-responseData = [
-  {
-    "id": 1,
-    "userId": 1,
-    "header": "Password manager",
-    "description": "Admin password of password manager",
-    "userName": "admin",
-    "password": "admin"
-  },
-  ...
-]
+error: 'Forbidden'
+response.status = 403
 ```
-#### Errors
-error Forbidden (the token is invalid or the token has expired)
-`response.status = 403`
-
-## Add new password
-#### Request
-```
-path=/api/addpassword`
-authHeader = { headers: { Authorization: secretToken } }
-newPassword = {
-  "header":"New password",
-  "description":"Admin awesome password",
-  "userName":"admin_new",
-  "password":"admin_new"
-}
-
-axios.get(path, newPassword, authHeader)
-```
-#### Response
-Responsed new password
-```
-responseData = {
-  "id": 2,
-  "userId": 1,
-  "header": "awesome service",
-  "description": "Admin password of awesome service",
-  "userName": "admin",
-  "password": "admin"
-}
-```
-#### Errors
-error Forbidden (the token is invalid or the token has expired)
-`response.status = 403`
-
-## Change password
-#### Request
-```
-path=/api/changepassword`
-authHeader = { headers: { Authorization: secretToken } }
-passwordData = {
-  "id": 1,
-  "description": "Admin awesome password change",
-  "userName": "admin_change",
-}
-
-axios.get(path, passwordData, authHeader)
-```
-#### Response
-Responsed changed password
-```
-responseData = {
-  "id": 1,
-  "userId": 1,
-  "header": "awesome service",
-  "description": "Admin awesome password change",
-  "userName": "admin_change",
-  "password": "admin"
-}
-```
-#### Errors
-error Forbidden (the token is invalid or the token has expired)
-`response.status = 403`
-
-## Remove password
-#### Request
-```
-path=/api/removeepassword`
-authHeader = { headers: { Authorization: secretToken } }
-removeData = { "id": 1 }
-
-axios.get(path, removeData, authHeader)
-```
-#### Response
-Responsed string
-```
-responseData = 'password id=${id} removed'
-```
-#### Errors
-error Forbidden (the token is invalid or the token has expired)
-`response.status = 403`

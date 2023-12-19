@@ -14,7 +14,7 @@ const editPassword = (request, response) => {
       password[key] = values[key];
     });
     writePasswords(passwords);
-    response.send(password);
+    response.sendStatus(200);
   } catch (e) {
     response
       .status(403)
