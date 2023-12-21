@@ -11,4 +11,4 @@ COPY . /password-server
 RUN npm install
 
 # Define the entry point for the container
-RUN npm start
+CMD [ "npm", "start" ]
