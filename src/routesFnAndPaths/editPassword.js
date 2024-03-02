@@ -1,10 +1,12 @@
 import { authentikateToken } from '../token.js';
 import state from '../state.js';
-import writePasswords from '../writePasswords.js';
+import files from '../files.js';
+import writeData from '../writeData.js';
 
 const editPassword = (request, response) => {
   try {
     const { passwords } = state;
+    const passwordsFile = files.passwords();
     const token = request.headers.authorization;
     const username = authentikateToken(token);
     console.log(`${username} edit password`);
@@ -13,7 +15,7 @@ const editPassword = (request, response) => {
     Object.keys(values).forEach((key) => {
       password[key] = values[key];
     });
-    writePasswords(passwords);
+    writeData(passwords, passwordsFile);
     response.sendStatus(200);
   } catch (e) {
     response

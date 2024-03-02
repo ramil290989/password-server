@@ -1,8 +1,11 @@
-import readUsers from './readUsers.js';
-import readPasswords from './readPasswords.js';
+import files from './files.js';
+import readData from './readData.js';
 
-const users = readUsers();
-const passwords = readPasswords();
+const usersFile = files.users();
+const passwordFile = files.passwords();
+
+const users = readData(usersFile);
+const passwords = readData(passwordFile);
 
 const state = { users, passwords };
 

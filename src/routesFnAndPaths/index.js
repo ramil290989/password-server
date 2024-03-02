@@ -1,4 +1,4 @@
-import { signin, signinPath } from './signin.js';
+import { register, registernPath } from './register.js';
 import { login, loginPath } from './login.js';
 import { changeUserPassword, changeUserPasswordPath } from './changeUserPassword.js';
 import { data, dataPath } from './data.js';
@@ -7,7 +7,7 @@ import { editPassword, editPasswordPath } from './editPassword.js';
 import { removePassword, removedPasswordPath } from './removePassword.js';
 
 const routesFn = {
-  signin,
+  register,
   login,
   changeUserPassword,
   data,
@@ -17,7 +17,7 @@ const routesFn = {
 };
 
 const paths = {
-  signinPath,
+  registernPath,
   loginPath,
   changeUserPasswordPath,
   dataPath,

@@ -4,7 +4,7 @@ import { routesFn, paths } from './routesFnAndPaths/index.js';
 const router = express.Router();
 
 const {
-  signin,
+  register,
   login,
   changeUserPassword,
   data,
@@ -14,7 +14,7 @@ const {
 } = routesFn;
 
 const {
-  signinPath,
+  registernPath,
   loginPath,
   changeUserPasswordPath,
   dataPath,
@@ -24,7 +24,7 @@ const {
 } = paths;
 
 // регистрация
-router.post(signinPath, signin);
+router.post(registernPath, register);
 // авторизация
 router.post(loginPath, login);
 // проверка токена изменение пароля пользователя
