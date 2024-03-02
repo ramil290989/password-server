@@ -1,3 +1,4 @@
+[![Maintainability](https://api.codeclimate.com/v1/badges/4f2eeb7029f547a58faf/maintainability)](https://codeclimate.com/github/ramil290989/password-server/maintainability)
 # Приложение USERS-SERVER
 ***Реализовано:*** работа с api (отправка данных, получение данных), работа с полученными данными.
 
