@@ -1,6 +1,6 @@
 const files = {
   users: () => 'users.json',
-  passwords: () => 'passwors.json',
+  passwords: () => 'passwords.json',
 };
 
 export default files;
